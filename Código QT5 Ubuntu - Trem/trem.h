@@ -13,13 +13,14 @@
 class Trem: public QThread{
  Q_OBJECT
 public:
-    Trem(int,int,int);  //construtor
+    Trem(int,int,int,int);  //construtor
     void run();         //função a ser executada pela thread
+    void setVelocidade(int);
 
 
 //Cria um sinal
 signals:
-    void updateGUI(int,int,int);
+    void updateGUI(int,int,int, int);
 
 private:
    int x;           //posição X do trem na tela
