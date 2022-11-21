@@ -15,12 +15,16 @@ class Trem: public QThread{
 public:
     Trem(int,int,int,int);  //construtor
     void run();         //função a ser executada pela thread
-    void setVelocidade(int);
+    void setVelocidade(int); // Define a velocidade a partir do slider
+    void moveX(int value);
+    void moveY(int value);
 
 
 //Cria um sinal
 signals:
     void updateGUI(int,int,int, int);
+    void checarTrilho(int,int);
+    void liberarTrilho(int);
 
 private:
    int x;           //posição X do trem na tela

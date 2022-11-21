@@ -19,6 +19,8 @@ public:
 
 public slots:
     void updateInterface(int,int,int);
+    void checarTrilho(int,int); //Será utilizado para checar se a via de trilho pode ser utilizada
+    void liberarTrilho(int); //Função para avisar que a via foi liberada
 
 private slots:
     void on_pushButton_clicked();

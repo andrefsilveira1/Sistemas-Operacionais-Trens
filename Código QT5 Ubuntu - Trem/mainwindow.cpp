@@ -1,5 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <semaphore.h>
+#include <stdio.h>
+
+//Essas variáveis precisam ficar fora para não serem reiniciadas.
+sem_t mutex;
+bool trilhos[7];
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,6 +35,28 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(trem3,SIGNAL(updateGUI(int,int,int,int)),SLOT(updateInterface(int,int,int)));
     connect(trem4,SIGNAL(updateGUI(int,int,int,int)),SLOT(updateInterface(int,int,int)));
     connect(trem5,SIGNAL(updateGUI(int,int,int,int)),SLOT(updateInterface(int,int,int)));
+
+    //Conectar funções auxiliares com o SIGNAL:
+
+    connect(trem1,SIGNAL(checarTrilho(int,int)),SLOT(checarTrilho(int,int)));
+    connect(trem2,SIGNAL(checarTrilho(int,int)),SLOT(checarTrilho(int,int)));
+    connect(trem3,SIGNAL(checarTrilho(int,int)),SLOT(checarTrilho(int,int)));
+    connect(trem4,SIGNAL(checarTrilho(int,int)),SLOT(checarTrilho(int,int)));
+    connect(trem5,SIGNAL(checarTrilho(int,int)),SLOT(checarTrilho(int,int)));
+
+    connect(trem1,SIGNAL(liberarTrilho(int)),SLOT(liberarTrilho(int)));
+    connect(trem2,SIGNAL(liberarTrilho(int)),SLOT(liberarTrilho(int)));
+    connect(trem3,SIGNAL(liberarTrilho(int)),SLOT(liberarTrilho(int)));
+    connect(trem4,SIGNAL(liberarTrilho(int)),SLOT(liberarTrilho(int)));
+    connect(trem5,SIGNAL(liberarTrilho(int)),SLOT(liberarTrilho(int)));
+
+
+    //inicialização do mutex e dos trilhos (livres).
+    //False = livre | True = Ocupado
+    sem_init(&mutex, 0, 1);
+    for(int i = 0; i < 7 ; i++ ){
+        trilhos[i] = false;
+    }
 
 
     trem1->start();
@@ -83,6 +113,82 @@ void MainWindow::on_Trem4Slider_valueChanged(int value)
 void MainWindow::on_Trem5Slider_valueChanged(int value)
 {
     trem5->setVelocidade(value);
+}
+//Função responsável para checar os trilhos antes do trem entrar na via
+void MainWindow::checarTrilho(int idTrem, int trilho){
+    sem_wait(&mutex);
+    switch(idTrem) {
+        case 1:
+            if(trilho == 0 && trilhos[0] == false) {
+                trilhos[0] = true;
+                trem1->start();
+                trem1->moveX(10);
+                //Segue movimento
+            }else if (trilho == 2 && trilhos[2] == false){
+                trilhos[2] = true;
+                trem1->start();
+                trem1->moveY(10);
+            }
+        break;
+        case 2:
+            if(trilho == 1 && trilhos[1] == false) {
+                trilhos[1] = true;
+                trem2->moveX(10);
+                //Segue movimento
+            }else if (trilho == 0 && trilhos[0] == false) {
+                trilhos[0] = true;
+                trem2->moveX(-10);
+                //segue movimento
+            }else if (trilho == 2 && trilhos[2] == false) {
+                trilhos[2] = true;
+                trem2->moveY(10);
+                //segue movimento
+            }
+        break;
+        case 3:
+            if(trilho == 2 && trilhos[2] == false) {
+                trilhos[2] = true;
+                trem3->moveX(-10);
+                //Segue movimento
+            }else if (trilho == 1 && trilhos[1] == false) {
+                trilhos[1] = true;
+                trem3->moveX(-10);
+                //Segue movimento
+            }
+        break;
+        case 4:
+            if(trilho == 2 && trilhos[2] == false) {
+                trilhos[2] = true;
+                trem4->moveY(-10);
+                //Segue movimento
+            }else if(trilho == 3 && trilhos[3] == false) {
+                trilhos[3] = true;
+                trem4->moveX(-10);
+                //Segue movimento
+            }
+        break;
+        case 5:
+            if(trilho == 2 && trilhos[2] == false) {
+                trilhos[2] = true;
+                trem5->moveY(-10);
+                //Segue movimento
+            }else if(trilho == 3 && trilhos[3] == false){
+                trilhos[3] = true;
+                trem5->moveX(10);
+                //Segue movimento
+            }
+        break;
+        default:
+        break;
+
+    }
+    sem_post(&mutex);
+}
+//Função que libera o trilho quando o trem sai da via.
+void MainWindow::liberarTrilho(int trilho){
+    sem_wait(&mutex);
+    trilhos[trilho] = false;
+    sem_post(&mutex);
 }
 
 
