@@ -121,12 +121,10 @@ void MainWindow::checarTrilho(int idTrem, int trilho){
         case 1:
             if(trilho == 0 && trilhos[0] == false) {
                 trilhos[0] = true;
-                trem1->start();
                 trem1->moveX(10);
                 //Segue movimento
             }else if (trilho == 2 && trilhos[2] == false){
                 trilhos[2] = true;
-                trem1->start();
                 trem1->moveY(10);
             }
         break;
@@ -144,10 +142,15 @@ void MainWindow::checarTrilho(int idTrem, int trilho){
                 trem2->moveY(10);
                 //segue movimento
             }
+            else if (trilho == 4 && trilhos[4] == false) {
+                trilhos[4] = true;
+                trem2->moveY(10);
+                //Segue movimento
+            }
         break;
         case 3:
-            if(trilho == 2 && trilhos[2] == false) {
-                trilhos[2] = true;
+            if(trilho == 4 && trilhos[4] == false) {
+                trilhos[4] = true;
                 trem3->moveX(-10);
                 //Segue movimento
             }else if (trilho == 1 && trilhos[1] == false) {
@@ -157,8 +160,8 @@ void MainWindow::checarTrilho(int idTrem, int trilho){
             }
         break;
         case 4:
-            if(trilho == 2 && trilhos[2] == false) {
-                trilhos[2] = true;
+            if(trilho == 4 && trilhos[4] == false) {
+                trilhos[4] = true;
                 trem4->moveY(-10);
                 //Segue movimento
             }else if(trilho == 3 && trilhos[3] == false) {
@@ -176,6 +179,9 @@ void MainWindow::checarTrilho(int idTrem, int trilho){
                 trilhos[3] = true;
                 trem5->moveX(10);
                 //Segue movimento
+            }else if (trilho == 4 && trilhos[4] == false) {
+                trilhos[4] = true;
+                trem5->moveX(10);
             }
         break;
         default:
