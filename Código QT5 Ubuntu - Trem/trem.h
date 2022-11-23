@@ -18,6 +18,8 @@ public:
     void setVelocidade(int); // Define a velocidade a partir do slider
     void moveX(int value);
     void moveY(int value);
+    int getx();
+    int gety();
 
 
 //Cria um sinal

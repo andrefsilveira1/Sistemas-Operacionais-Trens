@@ -17,7 +17,7 @@
    <widget class="QLabel" name="label_trem1">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>60</x>
       <y>150</y>
       <width>21</width>
       <height>17</height>
@@ -145,8 +145,8 @@
    <widget class="QLabel" name="label_trem2">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>30</y>
+      <x>230</x>
+      <y>150</y>
       <width>21</width>
       <height>17</height>
      </rect>
@@ -166,6 +166,12 @@
       <width>201</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>50</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -193,6 +199,12 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
@@ -218,6 +230,12 @@
       <width>201</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>50</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -245,6 +263,12 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
@@ -271,6 +295,12 @@
       <height>61</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
@@ -291,7 +321,7 @@
    <widget class="QLabel" name="label_trem3">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>400</x>
       <y>150</y>
       <width>21</width>
       <height>17</height>
@@ -307,7 +337,7 @@
    <widget class="QLabel" name="label_trem4">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>300</x>
       <y>280</y>
       <width>21</width>
       <height>17</height>
@@ -323,8 +353,8 @@
    <widget class="QLabel" name="label_trem5">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>170</y>
+      <x>150</x>
+      <y>280</y>
       <width>21</width>
       <height>17</height>
      </rect>
@@ -435,6 +465,76 @@
      <string/>
     </property>
    </widget>
+   <widget class="QLCDNumber" name="lcdNumber0">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>60</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>90</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber3">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>60</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber4">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>90</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber1">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>60</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber5">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>90</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber6">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>200</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>label_trilho3</zorder>
    <zorder>label_trilho3_5</zorder>
    <zorder>label_trilho3_3</zorder>
@@ -463,6 +563,13 @@
    <zorder>label_trilho2_4</zorder>
    <zorder>label_trem5</zorder>
    <zorder>label_trem4</zorder>
+   <zorder>lcdNumber0</zorder>
+   <zorder>lcdNumber2</zorder>
+   <zorder>lcdNumber3</zorder>
+   <zorder>lcdNumber4</zorder>
+   <zorder>lcdNumber1</zorder>
+   <zorder>lcdNumber5</zorder>
+   <zorder>lcdNumber6</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
