@@ -159,7 +159,7 @@ void MainWindow::checarTrilho(int idTrem, int trilho){
                 }
             }
             else if (trilho == 4) {
-                if(trilhos[4] == false &&  (trilhos[3] == false || trilhos[6] == false)){
+                if(trilhos[4] == false &&  (trilhos[3] == false || trilhos[6] == false) && !(trilhos[0] == true && trilhos[2] == true && trilhos[6] == true)){
                     trilhos[4] = true;
                     ui->lcdNumber4->display(2);
                     trem2->moveY(10);
