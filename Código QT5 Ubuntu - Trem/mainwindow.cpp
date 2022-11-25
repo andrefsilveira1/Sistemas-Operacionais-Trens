@@ -16,10 +16,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //Cria o trem com seu (ID, posição X, posição Y)
-    trem1 = new Trem(1,60,90, ui->Trem1Slider->value());
-    trem2 = new Trem(2,230,30, ui->Trem2Slider->value());
-    trem3 = new Trem(3,440,30, ui->Trem3Slider->value());
-    trem4 = new Trem(4,440,280, ui->Trem4Slider->value());
+    trem1 = new Trem(1,60,150, ui->Trem1Slider->value());
+    trem2 = new Trem(2,230,150, ui->Trem2Slider->value());
+    trem3 = new Trem(3,400,150, ui->Trem3Slider->value());
+    trem4 = new Trem(4,320,280, ui->Trem4Slider->value());
     trem5 = new Trem(5,150,280, ui->Trem5Slider->value());
 
 
@@ -51,8 +51,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(trem5,SIGNAL(liberarTrilho(int)),SLOT(liberarTrilho(int)));
 
 
+
     //inicialização do mutex e dos trilhos (livres).
-    //False = livre | True = Ocupado
+    //0 = livre | True = Ocupado
     sem_init(&mutex, 0, 1);
     for(int i = 0; i < 7 ; i++ ){
         trilhos[i] = false;
@@ -119,73 +120,120 @@ void MainWindow::checarTrilho(int idTrem, int trilho){
     sem_wait(&mutex);
     switch(idTrem) {
         case 1:
-            if(trilho == 0 && trilhos[0] == false) {
-                trilhos[0] = true;
-                trem1->moveX(10);
-                //Segue movimento
-            }else if (trilho == 2 && trilhos[2] == false){
-                trilhos[2] = true;
-                trem1->moveY(10);
+            if(trilho == 0) {
+                if(trilhos[0] == false && (trilhos[2] == false || trilhos[3] == false) && !(trilhos[1]==true && trilhos[2]==true && trilhos[5]==true && trilhos[6]==true) && !(trilhos[2]==true && trilhos[4]==true && trilhos[6]==true)){
+                    trilhos[0] = true;
+                    ui->lcdNumber0->display(1);
+                    trem1->moveX(10);
+                    //Segue movimento
+                }
+            }else if (trilho == 2){
+                if( trilhos[2] == false){
+                    trilhos[2] = true;
+                    ui->lcdNumber2->display(1);
+                    trem1->moveY(10);
+                }
             }
         break;
         case 2:
-            if(trilho == 1 && trilhos[1] == false) {
-                trilhos[1] = true;
-                trem2->moveX(10);
-                //Segue movimento
-            }else if (trilho == 0 && trilhos[0] == false) {
-                trilhos[0] = true;
-                trem2->moveX(-10);
-                //segue movimento
-            }else if (trilho == 2 && trilhos[2] == false) {
-                trilhos[2] = true;
-                trem2->moveY(10);
-                //segue movimento
+            if (trilho == 0) {
+                if(trilhos[0] == false){
+                    trilhos[0] = true;
+                    ui->lcdNumber0->display(2);
+                    trem2->moveX(-10);
+                    //segue movimento
+                }
+            }else if(trilho == 1) {
+                if(trilhos[1] == false && (trilhos[4] == false || trilhos[5] == false) && !(trilhos[0] == true && trilhos[5] == true && trilhos[2] == true && trilhos[6] == true) && !(trilhos[3] == true && trilhos[5] == true && trilhos[6] == true)){
+                    trilhos[1] = true;
+                    ui->lcdNumber1->display(2);
+                    trem2->moveX(10);
+                    //Segue movimento
+                }
+            }else if (trilho == 3) {
+                if(trilhos[3] == false && (trilhos[0] == false || trilhos[2] == false) && !(trilhos[0] == true && trilhos[2] == true && trilhos[6] == true)){
+                    trilhos[3] = true;
+                    ui->lcdNumber3->display(2);
+                    trem2->moveX(-10);
+                    //segue movimento
+                }
             }
-            else if (trilho == 4 && trilhos[4] == false) {
-                trilhos[4] = true;
-                trem2->moveY(10);
-                //Segue movimento
+            else if (trilho == 4) {
+                if(trilhos[4] == false &&  (trilhos[3] == false || trilhos[6] == false) && !(trilhos[0] == true && trilhos[2] == true && trilhos[6] == true)){
+                    trilhos[4] = true;
+                    ui->lcdNumber4->display(2);
+                    trem2->moveY(10);
+                    //Segue movimento
+            }
             }
         break;
         case 3:
-            if(trilho == 4 && trilhos[4] == false) {
-                trilhos[4] = true;
-                trem3->moveX(-10);
-                //Segue movimento
-            }else if (trilho == 1 && trilhos[1] == false) {
-                trilhos[1] = true;
-                trem3->moveX(-10);
-                //Segue movimento
+            if(trilho == 1) {
+                if(trilhos[1] == false){
+                    trilhos[1] = true;
+                    ui->lcdNumber1->display(3);
+                    trem3->moveX(-10);
+                    //Segue movimento
+                }
+            }else if (trilho == 5) {
+                if(trilhos[5] == false && (trilhos[1] == false || trilhos[4] == false) & !(trilhos[0] == true && trilhos[1] == true && trilhos[2] == true && trilhos[6] == true) && !(trilhos[1] == true && trilhos[3] == true && trilhos[6] == true)){
+                    trilhos[5] = true;
+                    ui->lcdNumber5->display(3);
+                    trem3->moveX(-10);
+                    //Segue movimento
+                }
             }
         break;
         case 4:
-            if(trilho == 4 && trilhos[4] == false) {
-                trilhos[4] = true;
-                trem4->moveY(-10);
-                //Segue movimento
-            }else if(trilho == 3 && trilhos[3] == false) {
-                trilhos[3] = true;
-                trem4->moveX(-10);
-                //Segue movimento
+            if(trilho == 4) {
+                if(trilhos[4]==false && (trilhos[1] == false || trilhos[5] == false)){
+                    trilhos[4] = true;
+                    ui->lcdNumber4->display(4);
+                    trem4->moveY(-10);
+                    //Segue movimento
+                }
+            }else if(trilho == 5) {
+                if(trilhos[5]==false){
+                    trilhos[5] = true;
+                    ui->lcdNumber5->display(4);
+                    trem4->moveX(+10);
+                    //Segue movimento
+                }
+            }
+            else if(trilho == 6) {
+                if(trilhos[6] == false && (trilhos[3] == false|| trilhos[4] == false) && !(trilhos[0] == true && trilhos[1] == true && trilhos[2] == true && trilhos[5] == true) && !(trilhos[1] == true && trilhos[3] == true && trilhos[5] == true) && !(trilhos[0] == true && trilhos[2] == true && trilhos[4] == true)){
+                    trilhos[6] = true;
+                    ui->lcdNumber6->display(4);
+                    trem4->moveX(-10);
+                    //Segue movimento
+                }
             }
         break;
         case 5:
-            if(trilho == 2 && trilhos[2] == false) {
-                trilhos[2] = true;
-                trem5->moveY(-10);
-                //Segue movimento
-            }else if(trilho == 3 && trilhos[3] == false){
-                trilhos[3] = true;
-                trem5->moveX(10);
-                //Segue movimento
-            }else if (trilho == 4 && trilhos[4] == false) {
-                trilhos[4] = true;
-                trem5->moveX(10);
+            if(trilho == 2) {
+                if(trilhos[2]==false && (trilhos[0] == false || trilhos[3] == false) && !(trilhos[0] == true && trilhos[1] == true && trilhos[5] == true && trilhos[6] == true) && !(trilhos[0] == true && trilhos[4] == true && trilhos[6] == true)){
+                    trilhos[2] = true;
+                    ui->lcdNumber2->display(5);
+                    trem5->moveY(-10);
+                    //Segue movimento
+                }
+            }else if(trilho == 3){
+                if(trilhos[3] == false && (trilhos[4] == false || trilhos[6] == false) && !(trilhos[1] == true && trilhos[5] == true && trilhos[6] == true)){
+                    trilhos[3] = true;
+                    ui->lcdNumber3->display(5);
+                    trem5->moveX(10);
+                    //Segue movimento
+                }
+            }else if (trilho == 6) {
+                if(trilhos[6] == false){
+                    trilhos[6] = true;
+                    ui->lcdNumber6->display(5);
+                    trem5->moveX(10);
+                }
             }
         break;
         default:
-        break;
+            break;
 
     }
     sem_post(&mutex);
@@ -194,6 +242,32 @@ void MainWindow::checarTrilho(int idTrem, int trilho){
 void MainWindow::liberarTrilho(int trilho){
     sem_wait(&mutex);
     trilhos[trilho] = false;
+    switch (trilho) {
+        case 0:
+            ui->lcdNumber0->display(0);
+            break;
+        case 1:
+            ui->lcdNumber1->display(0);
+            break;
+        case 2:
+            ui->lcdNumber2->display(0);
+            break;
+        case 3:
+            ui->lcdNumber3->display(0);
+            break;
+        case 4:
+            ui->lcdNumber4->display(0);
+            break;
+        case 5:
+            ui->lcdNumber5->display(0);
+            break;
+        case 6:
+            ui->lcdNumber6->display(0);
+            break;
+        default:
+            break;
+
+    }
     sem_post(&mutex);
 }
 
